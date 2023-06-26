@@ -158,22 +158,33 @@ document.getElementById("formulario").addEventListener("submit", function(event)
         mensaje += "Email: " + email + "\n";
         mensaje += "Contraseña: " + contrasena + "\n";
         mensaje += "Edad: " + edad + "\n";
-        mensaje += "Teléfono: " + tel + "\n";
-        mensaje += "Dirección: " + direccion + "\n";
+        mensaje += "Telefono: " + tel + "\n";
+        mensaje += "Direccion: " + direccion + "\n";
         mensaje += "Ciudad: " + ciudad + "\n";
-        mensaje += "Código Postal: " + cp + "\n";
+        mensaje += "Codigo Postal: " + cp + "\n";
         mensaje += "DNI: " + dni + "\n";
 
         console.log(mensaje);
 
         fetch('http://curso-dev-2021.herokuapp.com/newsletter', {
-            method: 'POST',
-            body: mensaje
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Nombre-Usuario': nombre,
+                'Email-Usuario': email,
+                'Contrasena-Usuario': contrasena,
+                'Edad-Usuario': edad.toString(),
+                'Telefono-Usuario': tel.toString(),
+                'Direccion-Usuario': direccion,
+                'Ciudad-Usuario': ciudad,
+                'Codigo-Postal-Usuario': cp.toString(),
+                'DNI-Usuario': dni.toString()
+            }
         })
         .then(response => response.json())
         .then(data => {
             // Mostrar el mensaje de éxito o error en el modal
-            modalMessage.textContent = data.success ? 'Suscripción exitosa' : 'Suscripción fallida';
+            modalMessage.textContent = data.success ? 'Suscripción exitosa\n' + mensaje : 'Suscripción fallida';
             modal.style.display = 'block'; // Mostrar el modal
         })
         .catch(error => {
