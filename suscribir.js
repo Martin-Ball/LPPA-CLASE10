@@ -149,6 +149,9 @@ document.getElementById("formulario").addEventListener("submit", function(event)
 
     console.log(nombre, email, contrasena, edad, tel, direccion, ciudad, cp, dni);
 
+    const modal = document.getElementById('modal-submit');
+    const modalMessage = document.getElementById('modal-message');
+
     if (nombre !== '' && email !== '' && contrasena !== '' && edad > 0 && tel > 0 && direccion !== '' && ciudad !== '' && cp > 0 && dni > 0) {
         var mensaje = "Información del formulario:\n\n";
         mensaje += "Nombre: " + nombre + "\n";
@@ -161,8 +164,31 @@ document.getElementById("formulario").addEventListener("submit", function(event)
         mensaje += "Código Postal: " + cp + "\n";
         mensaje += "DNI: " + dni + "\n";
 
-        alert(mensaje);
+        console.log(mensaje);
+
+        fetch('http://curso-dev-2021.herokuapp.com/newsletter', {
+            method: 'POST',
+            body: mensaje
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Mostrar el mensaje de éxito o error en el modal
+            modalMessage.textContent = data.success ? 'Suscripción exitosa' : 'Suscripción fallida';
+            modal.style.display = 'block'; // Mostrar el modal
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Mostrar mensaje de error en el modal
+            modalMessage.textContent = 'Ocurrió un error al procesar la solicitud';
+            modal.style.display = 'block'; // Mostrar el modal
+        });
     }else{
         alert("Por favor, complete todos los campos correctamente antes de enviar el formulario.");
     }
+
+
+    const closeBtn = document.querySelector('.close');
+    closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
 });

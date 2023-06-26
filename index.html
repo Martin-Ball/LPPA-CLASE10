@@ -82,7 +82,7 @@
             </div>
           </div>
 
-          <footer class="footer">
+          <footer id="formulario" class="footer">
             <div class="row-footer">
               <div class="column-footer">
                 <img src="images/logo.jpg">
@@ -102,7 +102,7 @@
               </div>
             </div>
           
-            <form class="formulario">
+            <form id="formulario" class="formulario">
               <div class="columna">
                 <input type="text" id="nombre" placeholder="Nombre">
                 <span id="nombre-error" class="error-text"></span>
@@ -142,9 +142,15 @@
           
               <button type="submit" id="suscribir">Suscribir</button>
             </form>
+
+              <div class="modal" id="modal-submit">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <p id="modal-message"></p>
+              </div>
           </footer>
-    
-    <script src="suscribir.js"></script>
+
+          <script src="suscribir.js"></script> 
 </body>
 </html>
 
