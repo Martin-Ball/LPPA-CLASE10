@@ -153,44 +153,38 @@ document.getElementById("formulario").addEventListener("submit", function(event)
     const modalMessage = document.getElementById('modal-message');
 
     if (nombre !== '' && email !== '' && contrasena !== '' && edad > 0 && tel > 0 && direccion !== '' && ciudad !== '' && cp > 0 && dni > 0) {
-        var mensaje = "Información del formulario:\n\n";
-        mensaje += "Nombre: " + nombre + "\n";
-        mensaje += "Email: " + email + "\n";
-        mensaje += "Contraseña: " + contrasena + "\n";
-        mensaje += "Edad: " + edad + "\n";
-        mensaje += "Telefono: " + tel + "\n";
-        mensaje += "Direccion: " + direccion + "\n";
-        mensaje += "Ciudad: " + ciudad + "\n";
-        mensaje += "Codigo Postal: " + cp + "\n";
-        mensaje += "DNI: " + dni + "\n";
+        var mensaje = "Información del formulario:<br><br>";
+        mensaje += "Nombre: " + nombre + "<br>";
+        mensaje += "Email: " + email + "<br>";
+        mensaje += "Contraseña: " + contrasena + "<br>";
+        mensaje += "Edad: " + edad + "<br>";
+        mensaje += "Telefono: " + tel + "<br>";
+        mensaje += "Direccion: " + direccion + "<br>";
+        mensaje += "Ciudad: " + ciudad + "<br>";
+        mensaje += "Codigo Postal: " + cp + "<br>";
+        mensaje += "DNI: " + dni + "<br>";
 
         console.log(mensaje);
 
-        fetch('http://curso-dev-2021.herokuapp.com/newsletter', {
+        fetch('https://jsonplaceholder.typicode.com/todos', {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Nombre-Usuario': nombre,
-                'Email-Usuario': email,
-                'Contrasena-Usuario': contrasena,
-                'Edad-Usuario': edad.toString(),
-                'Telefono-Usuario': tel.toString(),
-                'Direccion-Usuario': direccion,
-                'Ciudad-Usuario': ciudad,
-                'Codigo-Postal-Usuario': cp.toString(),
-                'DNI-Usuario': dni.toString()
-            }
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+              }
+              console.log(response);
+              return response;
+        })
         .then(data => {
             // Mostrar el mensaje de éxito o error en el modal
-            modalMessage.textContent = data.success ? 'Suscripción exitosa\n' + mensaje : 'Suscripción fallida';
+            console.log('Correcto:');
+            modalMessage.innerHTML ='Suscripción exitosa<br><br>' + mensaje;
             modal.style.display = 'block'; // Mostrar el modal
         })
         .catch(error => {
-            console.error('Error:', error);
             // Mostrar mensaje de error en el modal
-            modalMessage.textContent = 'Ocurrió un error al procesar la solicitud';
+            modalMessage.textContent = 'Ocurrió un error al procesar la solicitud' + error;
             modal.style.display = 'block'; // Mostrar el modal
         });
     }else{
